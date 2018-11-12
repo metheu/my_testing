@@ -15,7 +15,7 @@ services:
   
   app:
     build:
-      context: .
+      context: testy/
     ports:
       - "8081:8080"
     networks:
@@ -32,3 +32,5 @@ networks:
 
   frontend:
     driver: bridge
+
+    
