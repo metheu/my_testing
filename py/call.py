@@ -1,5 +1,5 @@
-import requests
 import os
+import requests
 
 GOTIFY_URL = os.getenv("gotify_url")
 GOTIFY_USER = os.getenv("gotify_user")
@@ -13,4 +13,4 @@ print(r.text)
     1. ping server and check its live else it will log error and retry n times
     2. it will check if its app token or else it will request it """
     
-    
+

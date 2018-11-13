@@ -1,6 +1,6 @@
 # settings.py
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(verbose=True)
 
 # OR, the same with increased verbosity:
 load_dotenv(verbose=True)
