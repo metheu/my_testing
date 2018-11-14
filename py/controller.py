@@ -6,34 +6,43 @@ import logging
 import json
 from requests.auth import HTTPBasicAuth
 
-def connect():
-    """ This is the test call requests to ping server 
+GOTIFY_URL = os.getenv("gotify_url")
+GOTIFY_USER = os.getenv("gotify_user")
+GOTIFY_PASS = os.getenv("gotify_password")
+
+
+def get_number_of_clients():
+    """ This is the test call requests to get number of clients 
     """
-    GOTIFY_URL = os.getenv("gotify_url")
-    GOTIFY_USER = os.getenv("gotify_user")
-    GOTIFY_PASS = os.getenv("gotify_password")
+    numb_of_clients = 0
 
-    
-
-    logging.basicConfig(level=logging.INFO)
-    res = requests.get(GOTIFY_URL + 'client', auth=(GOTIFY_USER, GOTIFY_PASS))
+    res = requests.get(GOTIFY_URL + 'client', headers={'Content-Type': 'application/json'}, auth=(GOTIFY_USER, GOTIFY_PASS))
 
     try:
         res.raise_for_status()
     except requests.exceptions.HTTPError as e:
         return "Error: " + str(e)
-
-    json_obj = res.json()
-    return json_obj
-
-
-    # if(r.status_code == 404):
-    #     logging.warning('Problem connecting to server. trying in %s', RETRY)
-
-    # elif(r.status_code == 200):
-    #     logging.info('Connected to server successfully')
     
+    res_j = res.json()
+    for res_js in res_j:
+        numb_of_clients += 1
 
-resp = connect()
+    print(numb_of_clients)
 
-print(resp)
+
+def create_application(name, desc):
+
+    payload = {"description": desc, "name": name}
+   
+    res = requests.post(GOTIFY_URL + 'application', headers={'Content-Type': 'application/json'}, json=payload, auth=(GOTIFY_USER, GOTIFY_PASS))
+
+    try:
+        res.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        return logging.exception ("Error: " + str(e))
+    
+    resj = res.json()
+
+    ## write this to db..
+
+create_application('matt', 'bbb')
